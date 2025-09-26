@@ -8,10 +8,71 @@ namespace TestPrueba
 {
     public class Almacen
     {
-       public List<Productos> Productos { get; set; }
+        public readonly List<Productos> _productos;
         public Almacen()
         {
-            Productos = new List<Productos>();
+            _productos = new List<Productos>();
+            for(int i = 0; i < 10; i++)
+            {
+                var producto= new Productos {
+                    Codigo = (i + 1).ToString("D4"),
+                    Nombre = $"Producto {i + 1}",
+                    Precio = 100 * (i + 1),
+                };
+                _productos.Add(producto);
+            }
+        }
+
+        public void Agregar(Productos producto)
+        {
+            var codigo = (_productos.Count +1).ToString("#000");
+            producto.Codigo = codigo;
+            _productos.Add(producto);
+        }
+
+        public void Editar(string codigo, string nombre)
+        {
+            bool existe = false;
+            
+            foreach (var prod in _productos)
+            {
+                if (prod.Codigo == codigo)
+                {
+                     prod.Nombre = nombre;
+                    existe = true;
+                    break;                                       
+                }
+            }
+
+            if (!existe)
+            {
+                Console.WriteLine($"No se encontro el producto con el codigo {codigo}");
+            }   
+        }
+
+        public void Editar(string codigo, double precio)
+        {
+            var producto = _productos.FirstOrDefault(p => p.Codigo == codigo);
+            if(producto is not null)
+                producto!.Precio = precio;
+            else
+            {
+                Console.WriteLine("No se encontro el producto el producto con el codigo {codigo}");
+            }
+        }
+        public int Count() => _productos.Count;    
+        public List<Productos> Productos => _productos;
+    
+
+    public void Mostrar_Productos()
+        {
+            Console.WriteLine("CODIGO | NOMBRE | PRECIO | DESCRIPCION");
+            foreach (var prod in _productos)
+            {
+                Console.WriteLine($"| {prod.Codigo} | {prod.Nombre} | {prod.Precio:N2} | {prod.Descripcion}	");
+            }
+            Console.WriteLine(new string('-', 70));
+            Console.WriteLine($"Elementos agregados al almacen: {Count()}");
         }
     }
 }

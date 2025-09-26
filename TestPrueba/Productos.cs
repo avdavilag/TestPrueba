@@ -8,20 +8,19 @@ namespace TestPrueba
 {
     public class Productos
     {
-        private string _codigo = default;
+        private string _codigo = default!;
         private double _precio;
         public string Codigo
         {
-            get
-            {
-                Console.WriteLine("Se esta esytrayendo un codigo");
-                return _codigo;
-            }
+            get => _codigo;
             set
             {
                 if (!string.IsNullOrEmpty(value))
+                    _codigo = value;
+                else
+                {
                     _codigo = "0000";
-
+                }                   
             }
         }
         public required string Nombre { get; set; } = default!;

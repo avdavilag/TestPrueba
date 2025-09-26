@@ -5,17 +5,17 @@ Console.WriteLine(new string('*',100));
 
 var almacen = new Almacen();
 
-while (almacen.Productos.Count < 3)
+while (almacen.Count() < 10)
 {
 	Console.WriteLine("Ingrese el valor para el producto");
-
-	var producto = new Productos
+    Console.WriteLine("Nombre del producto");
+    var producto = new Productos
 	{
 		Nombre = Console.ReadLine()!
 	};
-	Console.WriteLine("Ingrese el codigo para el producto");
-	producto.Codigo = Console.ReadLine() ?? string.Empty;
-	Console.WriteLine("Ingrese el precio para el producto");
+
+
+	Console.WriteLine("Precio Producto");
     if (double.TryParse(Console.ReadLine(), out double precio))
 	{
 		producto.Precio = precio;
@@ -23,21 +23,26 @@ while (almacen.Productos.Count < 3)
 	else
     producto.Precio = 100;
 
-	Console.WriteLine("Ingrese la descripcion para el producto");
+	Console.WriteLine("Descripcion para el producto");
 	producto.Descripcion = Console.ReadLine() ?? string.Empty;
 
+    Console.WriteLine("Se agrego el producto {Enviroment.NewLine}");
+	almacen.Agregar(producto);
+    }
 
-    Console.WriteLine("Se agrego el producto");
-	almacen.Productos.Add(producto);
-	Console.WriteLine("Codigo: {0} | Nombre: {1} | Precio: {2} | Descripcion: {3}", producto.Codigo, producto.Nombre, producto.Precio, producto.Descripcion);
-}
-jkhkh
-Console.WriteLine("CODIGO | NOMBRE | PRECIO | DESCRIPCION");
-foreach (var prod in almacen.Productos)
+almacen.Mostrar_Productos();
+Console.WriteLine("Edicion de un producto");
+Console.WriteLine("Ingrese el codigo a editar");
+var codigo=Console.ReadLine() ?? string.Empty;
+Console.WriteLine("Ingrese el nuevo nombre");
+almacen.Editar(codigo, Console.ReadLine() ?? string.Empty);
+
+Console.WriteLine("Ingrese el nuevo precio: ");
+if(double.TryParse(Console.ReadLine(), out double precioEdit))
 {
-	Console.WriteLine($"| {prod.Codigo} | {prod.Nombre} | {prod.Precio:N2} | {prod.Descripcion}	");
+	almacen.Editar(codigo, precioEdit);
 }
-Console.WriteLine(new string ('-',70));
-Console.WriteLine($"Elementos agregados al almacen: {almacen.Productos.Count}");
+
+almacen.Mostrar_Productos();
 
 
