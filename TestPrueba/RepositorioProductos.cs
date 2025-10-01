@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TestPrueba
 {
-    public class Almacen
+    public class RepositorioProductos
     {
         public readonly List<Productos> _productos;
-        public Almacen()
+        public RepositorioProductos()
         {
             _productos = new List<Productos>();
             for(int i = 0; i < 10; i++)
@@ -60,11 +60,42 @@ namespace TestPrueba
                 Console.WriteLine("No se encontro el producto el producto con el codigo {codigo}");
             }
         }
-        public int Count() => _productos.Count;    
-        public List<Productos> Productos => _productos;
-    
+        
+        public void Editar(string codigo, Productos producto)
+        {
+            var registro=_productos.FirstOrDefault(p => p.Codigo == codigo);
+            if(registro is not null)
+            {
+                registro.Nombre = producto.Nombre;
+                registro.Precio = producto.Precio;
+                registro.Descripcion = producto.Descripcion;
+                registro.TipoMercaderia = producto.TipoMercaderia;
+                registro.Dimensiones = producto.Dimensiones;
+            }
+            else
+            {
+                Console.WriteLine("No se encontro el producto el producto con el codigo {codigo}");
+            }
+        }
 
-    public void Mostrar_Productos()
+        public void Eliminar (string eliminar)
+        {
+            var registro = _productos.FirstOrDefault(p => p.Codigo == eliminar);
+            if (registro is not null)
+            {
+                _productos.Remove(registro);
+            }
+            else
+            {
+                Console.WriteLine("No se encontro el producto el producto con el codigo {eliminar}");
+            }
+        }
+        public int Count() => _productos.Count;    
+        public List<Productos> Listar => _productos.OrderBy(p=>p.Codigo).ToList();
+    
+        public Productos? BuscarxCodigo(string codigo) => _productos.FirstOrDefault(p => p.Codigo == codigo);   
+
+        public void Mostrar_Productos()
         {
             Console.WriteLine("CODIGO | NOMBRE | PRECIO | DESCRIPCION");
             foreach (var prod in _productos)
