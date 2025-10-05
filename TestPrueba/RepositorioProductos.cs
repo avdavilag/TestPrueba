@@ -97,10 +97,11 @@ namespace TestPrueba
 
         public void Mostrar_Productos()
         {
-            Console.WriteLine("CODIGO | NOMBRE | PRECIO | DESCRIPCION");
+
+            Console.WriteLine("CODIGO | NOMBRE | PRECIO | DESCRIPCION | TIPO | PROD/SEV | DIMENSIONES ");
             foreach (var prod in _productos)
             {
-                Console.WriteLine($"| {prod.Codigo} | {prod.Nombre} | {prod.Precio:N2} | {prod.Descripcion}	");
+                Console.WriteLine($"| {prod.Codigo} | {prod.Nombre} | {prod.Precio:N2} | {prod.Descripcion}	| {prod.TipoProducto} | {prod.TipoMercaderia} | {prod.Dimensiones}");
             }
             Console.WriteLine(new string('-', 70));
             Console.WriteLine($"Elementos agregados al almacen: {Count()}");

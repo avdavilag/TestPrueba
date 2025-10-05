@@ -4,8 +4,9 @@ Console.WriteLine("Welcome to Tienda Virtual!");
 Console.WriteLine(new string('*',100));
 
 var repositorioProducto = new RepositorioProductos();
+bool salir = false;
 
-while (!string.IsNullOrWhiteSpace("opcion"))
+while (!salir)
 {
 
 	Console.WriteLine("Seleccion una opcion");
@@ -100,6 +101,8 @@ while (!string.IsNullOrWhiteSpace("opcion"))
 			break;
 			default:
 			Console.WriteLine("Gracias por su visita...");
+			opcion=string.Empty;
+			salir = true;
             break;
     }
 
