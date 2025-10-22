@@ -8,6 +8,16 @@ namespace TestPrueba
 {
     public class RepositorioProductos
     {
+        public delegate void OnRegistroEliminadoDelegate();
+        public delegate void OnRegistroEliminado2(string codigo);
+
+
+        public event OnRegistroEliminadoDelegate? OnRegistroEliminadoEvent;
+        public event OnRegistroEliminado2? OnDelete;
+
+        public event Action? OnRegsitroAgregadoEvent;
+        public event Action<Productos>? OnRegistroActualizadoEvent;
+
         public readonly List<Productos> _productos;
         public RepositorioProductos()
         {
@@ -25,9 +35,10 @@ namespace TestPrueba
 
         public void Agregar(Productos producto)
         {
-            var codigo = (_productos.Count +1).ToString("#000");
+            var codigo = (_productos.Count +1).ToString("000#");
             producto.Codigo = codigo;
             _productos.Add(producto);
+            OnRegsitroAgregadoEvent?.Invoke();
         }
 
         public void Editar(string codigo, string nombre)
@@ -71,6 +82,8 @@ namespace TestPrueba
                 registro.Descripcion = producto.Descripcion;
                 registro.TipoMercaderia = producto.TipoMercaderia;
                 registro.Dimensiones = producto.Dimensiones;
+                
+                OnRegistroActualizadoEvent?.Invoke(registro);
             }
             else
             {
@@ -84,6 +97,9 @@ namespace TestPrueba
             if (registro is not null)
             {
                 _productos.Remove(registro);
+                ///Invocamos al eventop que origina esta accion
+                 OnRegistroEliminadoEvent?.Invoke();
+                OnDelete?.Invoke(eliminar);
             }
             else
             {
@@ -97,7 +113,6 @@ namespace TestPrueba
 
         public void Mostrar_Productos()
         {
-
             Console.WriteLine("CODIGO | NOMBRE | PRECIO | DESCRIPCION | TIPO | PROD/SEV | DIMENSIONES ");
             foreach (var prod in _productos)
             {

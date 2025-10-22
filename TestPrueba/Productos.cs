@@ -8,7 +8,10 @@ namespace TestPrueba
 {
     public class Productos
     {
-        private string _codigo = default!;
+
+     
+
+        private string _codigo = null!;
         private double _precio;
         public string Codigo
         {
