@@ -5,6 +5,7 @@ Console.WriteLine(new string('*',100));
 
 var repositorioProducto = new RepositorioProductos();
 repositorioProducto.OnRegistroEliminadoEvent += MensajeAll;
+repositorioProducto.OnRegistroEliminadoEvent += MensajeAll;
 repositorioProducto.OnDelete += MensajeAllWithParameter;
 repositorioProducto.OnDelete += MensajeAllElimianar;
 
@@ -15,10 +16,11 @@ repositorioProducto.OnRegsitroAgregadoEvent += () =>
     Console.ForegroundColor = ConsoleColor.Blue;
 };
 
-repositorioProducto.OnRegistroActualizadoEvent += (producto) =>
+repositorioProducto.OnRegistroActualizadoEvent += _ =>
 {
     Console.ForegroundColor=ConsoleColor.Green;
-    Console.WriteLine($"Producto {producto.Nombre} actualizado correctamente");
+    //  Console.WriteLine($"Producto {producto.Codigo} actualizado correctamente");
+    Console.WriteLine("Me suscribi a un evento con parametro, pero no lo necesito usar, parametro Discard");
     Console.ForegroundColor = ConsoleColor.White;
 };
 bool salir = false;
@@ -40,6 +42,7 @@ while (!salir)
     {
 
         case "1":
+            Console.WriteLine("Nombre Producto");
             var producto = new Productos
             {
                 Nombre = Console.ReadLine()!
@@ -102,6 +105,7 @@ while (!salir)
             Console.WriteLine("Ingrese el codigo a eliminar");
             var codigoEliminar = Console.ReadLine() ?? string.Empty;
             repositorioProducto.Eliminar(codigoEliminar);
+            repositorioProducto.OnRegistroEliminadoEvent -= MensajeAlElimianar;
             Console.WriteLine("Producto eliminado Correctamente");
              break;
         case "4":
@@ -138,7 +142,12 @@ static void MensajeAllWithParameter(string codigo)
     Console.WriteLine($"El registro con código {codigo} se eliminó");
     Console.ForegroundColor = ConsoleColor.White;
 }
-
+static void MensajeAlElimianar()
+{
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine($"El registro se eliminó correctamente");
+    Console.ForegroundColor = ConsoleColor.White;
+}
 static void MensajeAllElimianar(string codigo)
 {
     Console.ForegroundColor = ConsoleColor.Yellow;
